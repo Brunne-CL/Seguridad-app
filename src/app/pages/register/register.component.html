@@ -1,9 +1,165 @@
+<p-toast position="top-center" />
 <div class="register-page">
   <p-card header="Registro de usuario" styleClass="register-card">
-    <p>Completa el formulario para crear tu cuenta.</p>
-    <ng-template pTemplate="footer">
-      <p-button label="Registrarse" icon="pi pi-check" />
-      <p-button label="Volver al login" routerLink="/login" icon="pi pi-arrow-left" severity="secondary" [text]="true" styleClass="ml-2" />
-    </ng-template>
+    <p-message severity="info" styleClass="mb-3">
+      Contraseña: mínimo 10 caracteres y al menos un símbolo especial. Solo mayores de 18 años. Teléfono solo números.
+    </p-message>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field mb-2">
+        <label for="usuario" class="block mb-1">Usuario</label>
+        <input
+          id="usuario"
+          type="text"
+          pInputText
+          formControlName="usuario"
+          class="w-full"
+          placeholder="Usuario"
+          [class.p-invalid]="form.get('usuario')?.invalid && form.get('usuario')?.touched"
+        />
+        @if (form.get('usuario')?.invalid && form.get('usuario')?.touched) {
+          <small class="p-error block mt-1">El usuario es requerido.</small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="email" class="block mb-1">Email</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          placeholder="correo@ejemplo.com"
+          [class.p-invalid]="form.get('email')?.invalid && form.get('email')?.touched"
+        />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <small class="p-error block mt-1">
+            {{ form.get('email')?.errors?.['email'] ? 'Email no válido.' : 'El email es requerido.' }}
+          </small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="password" class="block mb-1">Contraseña</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="true"
+          [toggleMask]="true"
+          placeholder="Mín. 10 caracteres y un símbolo especial"
+          inputStyleClass="w-full"
+          [invalid]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <small class="p-error block mt-1">
+            @if (form.get('password')?.errors?.['passwordMinLength']) {
+              Mínimo 10 caracteres.
+            } @else if (form.get('password')?.errors?.['passwordSpecial']) {
+              Incluye al menos un símbolo especial ({{ specialCharsHelp }}).
+            } @else {
+              La contraseña es requerida.
+            }
+          </small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="confirmacion" class="block mb-1">Confirmar contraseña</label>
+        <p-password
+          id="confirmacion"
+          formControlName="confirmacion"
+          [feedback]="false"
+          [toggleMask]="true"
+          placeholder="Repite la contraseña"
+          inputStyleClass="w-full"
+          [invalid]="(form.get('confirmacion')?.invalid && form.get('confirmacion')?.touched) || form.errors?.['confirmacionNoCoincide']"
+        />
+        @if (form.errors?.['confirmacionNoCoincide'] && form.get('confirmacion')?.touched) {
+          <small class="p-error block mt-1">Las contraseñas no coinciden.</small>
+        }
+        @if (form.get('confirmacion')?.errors?.['required'] && form.get('confirmacion')?.touched) {
+          <small class="p-error block mt-1">Confirma la contraseña.</small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="nombreCompleto" class="block mb-1">Nombre completo</label>
+        <input
+          id="nombreCompleto"
+          type="text"
+          pInputText
+          formControlName="nombreCompleto"
+          class="w-full"
+          placeholder="Nombre y apellidos"
+          [class.p-invalid]="form.get('nombreCompleto')?.invalid && form.get('nombreCompleto')?.touched"
+        />
+        @if (form.get('nombreCompleto')?.invalid && form.get('nombreCompleto')?.touched) {
+          <small class="p-error block mt-1">El nombre completo es requerido.</small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="direccion" class="block mb-1">Dirección</label>
+        <input
+          id="direccion"
+          type="text"
+          pInputText
+          formControlName="direccion"
+          class="w-full"
+          placeholder="Calle, número, ciudad"
+          [class.p-invalid]="form.get('direccion')?.invalid && form.get('direccion')?.touched"
+        />
+        @if (form.get('direccion')?.invalid && form.get('direccion')?.touched) {
+          <small class="p-error block mt-1">La dirección es requerida.</small>
+        }
+      </div>
+
+      <div class="field mb-2">
+        <label for="telefono" class="block mb-1">Teléfono (solo números)</label>
+        <input
+          id="telefono"
+          type="text"
+          pInputText
+          formControlName="telefono"
+          class="w-full"
+          placeholder="Ej. 0987654321"
+          [class.p-invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched"
+        />
+        @if (form.get('telefono')?.invalid && form.get('telefono')?.touched) {
+          <small class="p-error block mt-1">
+            {{ form.get('telefono')?.errors?.['telefonoSoloNumeros']?.message || form.get('telefono')?.errors?.['telefonoLongitud']?.message || 'Teléfono requerido (solo números).' }}
+          </small>
+        }
+      </div>
+
+      <div class="field mb-3">
+        <label for="fechaNacimiento" class="block mb-1">Fecha de nacimiento (mayores de 18)</label>
+        <p-datePicker
+          id="fechaNacimiento"
+          formControlName="fechaNacimiento"
+          dateFormat="dd/mm/yy"
+          placeholder="dd/mm/aaaa"
+          [showIcon]="true"
+          styleClass="w-full"
+          [invalid]="form.get('fechaNacimiento')?.invalid && form.get('fechaNacimiento')?.touched"
+        />
+        @if (form.get('fechaNacimiento')?.invalid && form.get('fechaNacimiento')?.touched) {
+          <small class="p-error block mt-1">
+            {{ form.get('fechaNacimiento')?.errors?.['mayorDeEdad']?.message || 'Fecha requerida. Solo mayores de 18 años.' }}
+          </small>
+        }
+      </div>
+
+      <div class="flex gap-2 flex-wrap mt-3">
+        <p-button
+          type="submit"
+          label="Registrarse"
+          icon="pi pi-check"
+          [disabled]="form.invalid"
+          [loading]="false"
+        />
+        <p-button type="button" label="Volver al login" routerLink="/login" icon="pi pi-arrow-left" severity="secondary" [text]="true" />
+      </div>
+    </form>
   </p-card>
 </div>

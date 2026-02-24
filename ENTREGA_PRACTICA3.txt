@@ -1,0 +1,19 @@
+Actividad - Práctica 3
+Aplicación Angular + PrimeNG - Validación de credenciales y registro
+
+Enlace al repositorio del proyecto:
+(Reemplaza con la URL de tu repositorio, por ejemplo: https://github.com/tu-usuario/app-seguridad)
+
+Ejemplo: https://github.com/tu-usuario/app-seguridad
+
+---
+El repositorio debe mostrar el commit "Practica 3", que incluye:
+- Credenciales hardcodeadas para login (usuario: admin, contraseña: Seguridad@2025)
+- Validación de credenciales en la interfaz de inicio de sesión
+- Formulario de registro con validaciones:
+  * Contraseña mínimo 10 caracteres con símbolos especiales (!@#$%^&*()_+-=[]{}|;':",./<>?)
+  * Solo mayores de 18 años (fecha de nacimiento)
+  * Teléfono válido (solo números, mínimo 10 dígitos)
+  * Campos: usuario, email, contraseña y confirmación, nombre completo, dirección
+  * Botón Registrarse habilitado solo con todos los campos válidos
+- Uso de componentes PrimeNG para validaciones y alertas (Toast, Message, InputText, Password, DatePicker, etc.)

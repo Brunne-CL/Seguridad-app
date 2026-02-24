@@ -1,9 +1,46 @@
+<p-toast position="top-center" />
 <div class="login-page">
   <p-card header="Inicio de sesión" styleClass="login-card">
-    <p>Ingresa tus credenciales para acceder.</p>
-    <ng-template pTemplate="footer">
-      <p-button label="Iniciar sesión" routerLink="/home" icon="pi pi-sign-in" />
-      <p-button label="Registrarse" routerLink="/registro" icon="pi pi-user-plus" severity="secondary" [text]="true" styleClass="ml-2" />
-    </ng-template>
+    @if (form.invalid && form.touched) {
+      <p-message severity="warn" styleClass="mb-3">
+        Completa usuario y contraseña para continuar.
+      </p-message>
+    }
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field mb-3">
+        <label for="usuario" class="block mb-1">Usuario</label>
+        <input
+          id="usuario"
+          type="text"
+          pInputText
+          formControlName="usuario"
+          class="w-full"
+          placeholder="Usuario"
+          [class.p-invalid]="form.get('usuario')?.invalid && form.get('usuario')?.touched"
+        />
+        @if (form.get('usuario')?.invalid && form.get('usuario')?.touched) {
+          <small class="p-error block mt-1">El usuario es requerido.</small>
+        }
+      </div>
+      <div class="field mb-3">
+        <label for="password" class="block mb-1">Contraseña</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          placeholder="Contraseña"
+          inputStyleClass="w-full"
+          [invalid]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <small class="p-error block mt-1">La contraseña es requerida.</small>
+        }
+      </div>
+      <div class="flex gap-2 flex-wrap mt-3">
+        <p-button type="submit" label="Iniciar sesión" icon="pi pi-sign-in" [loading]="false" />
+        <p-button type="button" label="Registrarse" routerLink="/registro" icon="pi pi-user-plus" severity="secondary" [text]="true" />
+      </div>
+    </form>
   </p-card>
 </div>

@@ -2,7 +2,7 @@
   <p-card header="Bienvenido" styleClass="home-card">
     <p>Has iniciado sesión correctamente. Esta es la página de inicio.</p>
     <ng-template pTemplate="footer">
-      <p-button label="Cerrar sesión" routerLink="/login" icon="pi pi-sign-out" severity="secondary" />
+      <p-button label="Cerrar sesión" icon="pi pi-sign-out" severity="secondary" (onClick)="logout()" />
     </ng-template>
   </p-card>
 </div>
