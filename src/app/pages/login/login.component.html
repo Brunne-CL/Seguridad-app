@@ -1,0 +1,9 @@
+<div class="login-page">
+  <p-card header="Inicio de sesión" styleClass="login-card">
+    <p>Ingresa tus credenciales para acceder.</p>
+    <ng-template pTemplate="footer">
+      <p-button label="Iniciar sesión" routerLink="/home" icon="pi pi-sign-in" />
+      <p-button label="Registrarse" routerLink="/registro" icon="pi pi-user-plus" severity="secondary" [text]="true" styleClass="ml-2" />
+    </ng-template>
+  </p-card>
+</div>
