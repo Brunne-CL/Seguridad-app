@@ -1,0 +1,67 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--uteq-azul-oscuro);
+  padding-bottom: 0.4rem;
+  border-bottom: 3px solid var(--uteq-verde-agua);
+  display: inline-block;
+}
+
+.header .p-button.p-button-text:hover {
+  color: var(--uteq-azul-uteq);
+}
+
+.user-mgmt ::ng-deep .btn-uteq-primary {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+}
+
+.user-mgmt ::ng-deep .btn-uteq-primary:hover {
+  background: var(--uteq-azul-uteq);
+  border-color: var(--uteq-azul-uteq);
+}
+
+.user-mgmt ::ng-deep .p-card .p-card-header {
+  color: var(--uteq-azul-oscuro);
+}
+
+.perms-list {
+  font-size: 0.9rem;
+  color: var(--uteq-gris-humo);
+}
+
+.perms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.perm-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.perm-row label {
+  cursor: pointer;
+  margin: 0;
+  color: var(--uteq-azul-oscuro);
+}
+
+
+.field label { display: block; margin-bottom: 0.25rem; color: var(--uteq-azul-oscuro); font-weight: 500; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.w-full { width: 100%; }

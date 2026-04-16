@@ -1,0 +1,83 @@
+<p-toast position="top-center" />
+<div class="group-mgmt">
+  <div class="header">
+    <p-button icon="pi pi-arrow-left" [text]="true" (onClick)="back()" />
+    <h1>Gestión de grupo</h1>
+  </div>
+
+  @if (group(); as g) {
+    <p-card header="Configuración del grupo" styleClass="mb-3">
+      <div class="config-row">
+        <label>Nombre del grupo</label>
+        @if (canEdit()) {
+          <div class="flex gap-2">
+            <input
+              type="text"
+              pInputText
+              [value]="newNombre()"
+              (input)="newNombre.set($any($event.target).value)"
+              [placeholder]="g.nombre"
+              class="nombre-input"
+            />
+            <p-button label="Guardar nombre" icon="pi pi-check" styleClass="btn-uteq-primary" (onClick)="saveNombre()" />
+          </div>
+        } @else {
+          <span>{{ g.nombre }}</span>
+        }
+      </div>
+    </p-card>
+
+    <p-card header="Usuarios del grupo">
+      @if (canAdd()) {
+        <div class="add-user" [formGroup]="addUserForm">
+          <p class="add-user-hint">Selecciona un usuario que no esté en el grupo y pulsa «Añadir al grupo».</p>
+          <div class="add-user-row">
+            <p-select
+              formControlName="userId"
+              [options]="usersNotInGroup()"
+              optionLabel="label"
+              optionValue="id"
+              placeholder="Seleccionar usuario..."
+              [showClear]="true"
+              styleClass="add-user-select"
+            />
+            <p-button
+              label="Añadir al grupo"
+              icon="pi pi-user-plus"
+              styleClass="btn-uteq-primary"
+              (onClick)="addSelectedUser()"
+              [disabled]="!addUserForm.get('userId')?.value"
+            />
+          </div>
+          @if (usersNotInGroup().length === 0) {
+            <p class="add-user-empty">Todos los usuarios de la app ya están en este grupo.</p>
+          }
+        </div>
+      }
+      <p-table [value]="members()" [tableStyle]="{ 'min-width': '40rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Nombre</th>
+            @if (canDelete()) {
+              <th></th>
+            }
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-m>
+          <tr>
+            <td>{{ m.usuario }}</td>
+            <td>{{ m.email }}</td>
+            <td>{{ m.nombreCompleto }}</td>
+            @if (canDelete()) {
+              <td>
+                <p-button icon="pi pi-trash" severity="danger" [text]="true" (onClick)="removeUser(m.id)" />
+              </td>
+            }
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  }
+</div>

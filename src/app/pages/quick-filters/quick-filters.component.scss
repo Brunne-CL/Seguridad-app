@@ -1,0 +1,30 @@
+.quick-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.55rem 1rem;
+  border: 2px solid rgba(0, 81, 122, 0.22);
+  border-radius: var(--uteq-radius);
+  background: var(--uteq-blanco);
+  color: var(--uteq-azul-oscuro);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  box-shadow: 0 2px 6px rgba(0, 51, 102, 0.06);
+}
+
+.filter-btn:hover {
+  background: var(--uteq-verde-agua-15);
+  border-color: var(--uteq-verde-agua);
+  color: var(--uteq-azul-oscuro);
+}
+
+.filter-btn.active {
+  background: var(--uteq-azul-uteq);
+  color: var(--uteq-blanco);
+  border-color: var(--uteq-azul-uteq);
+}

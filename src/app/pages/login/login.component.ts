@@ -59,7 +59,19 @@ export class LoginComponent {
         summary: 'Bienvenido',
         detail: 'Inicio de sesión correcto.'
       });
-      setTimeout(() => this.router.navigate(['/home']), 500);
+      let target: string[];
+      if (this.auth.canAccessGeneralDashboard()) {
+        target = ['/dashboard'];
+      } else {
+        const grupos = this.auth.groupsForCurrentUser();
+        if (grupos.length === 1) {
+          this.auth.selectGroup(grupos[0].id);
+          target = ['/grupo', grupos[0].id, 'dashboard'];
+        } else {
+          target = ['/grupos'];
+        }
+      }
+      setTimeout(() => this.router.navigate(target), 500);
     } else {
       this.messageService.add({
         severity: 'error',

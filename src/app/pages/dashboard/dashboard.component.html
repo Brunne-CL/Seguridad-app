@@ -1,0 +1,64 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard del grupo</h1>
+    @if (myGroups().length > 1) {
+      <div class="group-select-wrap">
+        <label class="group-select-label">Cambiar de grupo</label>
+        <p-select
+          [options]="groupOptions()"
+          optionLabel="label"
+          optionValue="id"
+          [ngModel]="groupId()"
+          (ngModelChange)="onGroupChange($event)"
+          placeholder="Seleccionar grupo"
+          styleClass="group-select"
+        />
+      </div>
+    }
+    @if (canCreateTicket()) {
+      <p-button label="Crear ticket" icon="pi pi-plus" (onClick)="goCrearTicket()" />
+    }
+  </div>
+
+  <div class="resumen-cards">
+    <p-card styleClass="resumen-card resumen-total">
+      <ng-template pTemplate="header">Total</ng-template>
+      <span class="numero">{{ resumen().total }}</span>
+      <p class="mb-0">tickets</p>
+    </p-card>
+    @for (estado of TICKET_ESTADOS; track estado) {
+      <p-card [styleClass]="'resumen-card ' + getResumenCardClass(estado)">
+        <ng-template pTemplate="header">{{ estado }}</ng-template>
+        <span class="numero">{{ resumen().porEstado[estado] }}</span>
+      </p-card>
+    }
+  </div>
+
+  <p-card header="Tickets recientes o asignados a ti" styleClass="mt-3">
+    <p-table [value]="recientesOAsignados()" [tableStyle]="{ 'min-width': '40rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Título</th>
+          <th>Estado</th>
+          <th>Asignado a</th>
+          <th>Prioridad</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ticket>
+        <tr>
+          <td>{{ ticket.titulo }}</td>
+          <td><p-tag [value]="ticket.estado" [severity]="getSeverity(ticket.estado)" /></td>
+          <td>{{ getAssigneeName(ticket) }}</td>
+          <td>{{ ticket.prioridad }}</td>
+          <td>
+            <p-button icon="pi pi-eye" [text]="true" (onClick)="goTicket(ticket.id)" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="5">No hay tickets recientes o asignados.</td></tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>

@@ -1,10 +1,11 @@
 Actividad - Práctica 3
 Aplicación Angular + PrimeNG - Validación de credenciales y registro
 
-Enlace al repositorio del proyecto:
-(Reemplaza con la URL de tu repositorio, por ejemplo: https://github.com/tu-usuario/app-seguridad)
+-----------------------------------------------------------
+ENLACE AL REPOSITORIO:
+-----------------------------------------------------------
 
-Ejemplo: https://github.com/tu-usuario/app-seguridad
+https://github.com/Brunne-CL/Seguridad-app
 
 ---
 El repositorio debe mostrar el commit "Practica 3", que incluye:

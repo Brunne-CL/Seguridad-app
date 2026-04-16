@@ -1,0 +1,24 @@
+<p-toast position="top-center" />
+<div class="auth-page-bg group-select-page">
+  <p-card header="Selecciona un grupo o espacio" styleClass="group-card uteq-card-auth">
+    <p class="mb-3">Hola, {{ auth.currentUser()?.nombreCompleto ?? auth.currentUser()?.usuario }}. Elige el grupo al que quieres acceder:</p>
+    <div class="group-list">
+      @for (g of auth.groupsForCurrentUser(); track g.id) {
+        <button
+          type="button"
+          class="group-btn"
+          (click)="selectGroup(g.id)"
+        >
+          <span class="pi pi-users"></span>
+          {{ g.nombre }}
+        </button>
+      }
+    </div>
+    @if (auth.groupsForCurrentUser().length === 0) {
+      <p-message severity="info">No perteneces a ningún grupo. Un administrador puede añadirte a uno.</p-message>
+    }
+    <ng-template pTemplate="footer">
+      <p-button label="Cerrar sesión" icon="pi pi-sign-out" severity="secondary" (onClick)="logout()" />
+    </ng-template>
+  </p-card>
+</div>

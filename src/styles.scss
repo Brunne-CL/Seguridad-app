@@ -1,4 +1,175 @@
 /* PrimeNG - iconos */
 @import 'primeicons/primeicons.css';
 
-/* Estilos globales */
+/* ========== Paleta UTEQ / App Seguridad ========== */
+:root {
+  --uteq-azul-oscuro: #003366;
+  --uteq-azul-uteq: #00517A;
+  --uteq-verde-agua: #00B3B3;
+  --uteq-gris-humo: #666666;
+  --uteq-blanco-cremoso: #F5F5F5;
+  --uteq-naranja: #EDA200;
+  --uteq-negro: #000000;
+  --uteq-blanco: #FFFFFF;
+
+  /* Variantes para fondos y bordes */
+  --uteq-azul-oscuro-10: rgba(0, 51, 102, 0.1);
+  --uteq-azul-uteq-15: rgba(0, 81, 122, 0.18);
+  --uteq-verde-agua-15: rgba(0, 179, 179, 0.18);
+  --uteq-naranja-15: rgba(237, 162, 0, 0.18);
+  --uteq-sombra-suave: 0 4px 12px rgba(0, 51, 102, 0.1);
+  --uteq-sombra-card: 0 6px 24px rgba(0, 51, 102, 0.14);
+  --uteq-sombra-hover: 0 8px 28px rgba(0, 81, 122, 0.22);
+  --uteq-sombra-fuerte: 0 10px 32px rgba(0, 51, 102, 0.18);
+  --uteq-radius: 10px;
+  --uteq-radius-lg: 14px;
+  --uteq-border: 1px solid rgba(0, 81, 122, 0.18);
+}
+
+/* ========== Base ========== */
+body {
+  background: var(--uteq-blanco-cremoso);
+  color: var(--uteq-negro);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+/* Fondos con acento para páginas de auth - más presencia */
+.auth-page-bg {
+  min-height: 100vh;
+  background: linear-gradient(145deg, #e8eef2 0%, var(--uteq-blanco-cremoso) 35%, rgba(0, 81, 122, 0.08) 70%, rgba(0, 179, 179, 0.06) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* ========== Cards globales (override PrimeNG) ========== */
+.p-card {
+  border-radius: var(--uteq-radius-lg) !important;
+  box-shadow: var(--uteq-sombra-card) !important;
+  border: var(--uteq-border) !important;
+  overflow: hidden;
+}
+
+.p-card .p-card-header {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  color: var(--uteq-azul-oscuro);
+  border-bottom: 3px solid var(--uteq-azul-uteq);
+  padding: 1.15rem 1.5rem;
+  background: linear-gradient(to bottom, #fff 0%, #f8fafb 100%);
+  border-radius: var(--uteq-radius-lg) var(--uteq-radius-lg) 0 0;
+}
+
+.p-card .p-card-body {
+  padding: 1.5rem 1.75rem;
+}
+
+.p-card .p-card-footer {
+  padding: 1.15rem 1.5rem;
+  border-top: 2px solid rgba(0, 81, 122, 0.1);
+  background: linear-gradient(to top, #f0f4f6 0%, #fafbfc 100%);
+  border-radius: 0 0 var(--uteq-radius-lg) var(--uteq-radius-lg);
+}
+
+/* ========== Botones - acentos con paleta ========== */
+.p-button {
+  border-radius: var(--uteq-radius) !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 1.1rem !important;
+  transition: transform 0.15s ease, box-shadow 0.2s ease !important;
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--uteq-sombra-hover);
+}
+
+.p-button:active {
+  transform: translateY(0);
+}
+
+/* ========== Inputs ========== */
+.p-inputtext {
+  padding: 0.65rem 0.9rem !important;
+  border-radius: var(--uteq-radius) !important;
+  border: 2px solid rgba(0, 81, 122, 0.2) !important;
+}
+
+.p-inputtext:enabled:focus {
+  border-color: var(--uteq-azul-uteq) !important;
+  box-shadow: 0 0 0 3px var(--uteq-azul-uteq-15) !important;
+}
+
+.p-inputtext:enabled:hover {
+  border-color: rgba(0, 81, 122, 0.4) !important;
+}
+
+/* ========== Tablas ========== */
+.p-datatable .p-datatable-tbody > tr {
+  transition: background 0.15s;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--uteq-azul-oscuro-10) !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--uteq-azul-oscuro) !important;
+  color: var(--uteq-blanco) !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  border-color: var(--uteq-azul-uteq) !important;
+  padding: 0.85rem 1.1rem;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.85rem 1.1rem;
+}
+
+/* ========== Tags / badges con paleta ========== */
+.p-tag {
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+
+.p-tag.p-tag-success { background: var(--uteq-verde-agua) !important; color: var(--uteq-blanco) !important; }
+.p-tag.p-tag-warning { background: var(--uteq-naranja) !important; color: var(--uteq-negro) !important; }
+.p-tag.p-tag-info { background: var(--uteq-azul-uteq) !important; color: var(--uteq-blanco) !important; }
+.p-tag.p-tag-secondary { background: var(--uteq-gris-humo) !important; color: var(--uteq-blanco) !important; }
+.p-tag.p-tag-danger { background: var(--uteq-azul-oscuro) !important; color: var(--uteq-blanco) !important; }
+
+/* ========== Toast ========== */
+.p-toast .p-toast-message {
+  border-radius: var(--uteq-radius);
+  box-shadow: var(--uteq-sombra-card);
+}
+
+.p-toast .p-toast-message-success { border-left: 4px solid var(--uteq-verde-agua); }
+.p-toast .p-toast-message-warn { border-left: 4px solid var(--uteq-naranja); }
+.p-toast .p-toast-message-info { border-left: 4px solid var(--uteq-azul-uteq); }
+.p-toast .p-toast-message-error { border-left: 4px solid var(--uteq-azul-oscuro); }
+
+/* ========== Diálogos ========== */
+.p-dialog .p-dialog-header {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--uteq-azul-oscuro);
+  border-bottom: 3px solid var(--uteq-azul-uteq);
+  padding: 1.15rem 1.5rem;
+}
+
+.p-dialog .p-dialog-content {
+  padding: 1.25rem 1.5rem;
+}
+
+.p-dialog {
+  border-radius: var(--uteq-radius-lg);
+  box-shadow: var(--uteq-sombra-fuerte);
+  border: 2px solid rgba(0, 81, 122, 0.12);
+}

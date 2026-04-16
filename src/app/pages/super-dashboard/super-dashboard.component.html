@@ -1,0 +1,171 @@
+<div class="super-dashboard">
+  <header class="super-header">
+    <h1>Dashboard</h1>
+    <div class="header-actions">
+      <span class="user-name">{{ auth.currentUser()?.nombreCompleto ?? auth.currentUser()?.usuario }}</span>
+      <p-button label="Mi perfil" icon="pi pi-user" [text]="true" (onClick)="goPerfil()" />
+      @if (auth.canManageUsers()) {
+        <p-button label="Gestión de usuarios" icon="pi pi-users" [text]="true" (onClick)="goUsuarios()" />
+      }
+      <p-button label="Cerrar sesión" icon="pi pi-sign-out" severity="secondary" (onClick)="logout()" />
+    </div>
+  </header>
+
+  <div class="dashboard-body">
+    <!-- Estadísticas globales (todos los grupos y tickets) -->
+    <div class="global-stats mb-3">
+      <p-card header="Resumen global de tickets" styleClass="resumen-global-card">
+        <div class="resumen-cards">
+          <p-card styleClass="resumen-card resumen-total">
+            <ng-template pTemplate="header">Total</ng-template>
+            <span class="numero">{{ globalResumen().total }}</span>
+            <p class="mb-0">tickets en todos los grupos</p>
+          </p-card>
+          @for (estado of TICKET_ESTADOS; track estado) {
+            <p-card [styleClass]="'resumen-card ' + getResumenCardClass(estado)">
+              <ng-template pTemplate="header">{{ estado }}</ng-template>
+              <span class="numero">{{ globalResumen().porEstado[estado] ?? 0 }}</span>
+            </p-card>
+          }
+        </div>
+
+        <p-table
+          [value]="groups()"
+          [tableStyle]="{ 'min-width': '40rem' }"
+          styleClass="mt-3"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Grupo</th>
+              <th>Total tickets</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-group>
+            <tr>
+              <td>{{ group.nombre }}</td>
+              <td>{{ globalResumen().porGrupo[group.id] ?? 0 }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td colspan="2">No hay grupos ni tickets registrados.</td></tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+
+    <p-card header="Seleccionar grupo a gestionar" styleClass="selector-card" [formGroup]="groupForm">
+      <p-select
+        formControlName="groupId"
+        [options]="groupOptions()"
+        optionLabel="label"
+        optionValue="id"
+        placeholder="Elige un grupo..."
+        [showClear]="true"
+        styleClass="w-full"
+      />
+      @if (auth.canManageGroup()) {
+        <ng-template pTemplate="footer">
+          <p-button
+            label="Crear nuevo grupo"
+            icon="pi pi-plus-circle"
+            (onClick)="openCreateGroup()"
+          />
+        </ng-template>
+      }
+    </p-card>
+
+    <p-dialog
+      header="Crear nuevo grupo"
+      [visible]="showCreateGroupDialog()"
+      (visibleChange)="showCreateGroupDialog.set($event)"
+      [modal]="true"
+      [style]="{ width: '360px' }"
+    >
+      <form [formGroup]="createGroupForm" (ngSubmit)="createGroup()">
+        <div class="field mb-2">
+          <label for="nombreGrupo">Nombre del grupo</label>
+          <input
+            id="nombreGrupo"
+            type="text"
+            pInputText
+            formControlName="nombre"
+            class="w-full"
+            placeholder="Ej. Equipo QA"
+          />
+        </div>
+        <p class="text-muted mb-2">
+          Se te añadirá automáticamente como miembro del grupo. Luego puedes gestionar más miembros desde
+          «Gestión de grupo».
+        </p>
+        <div class="flex gap-2 mt-2">
+          <p-button type="submit" label="Crear grupo" icon="pi pi-check" />
+          <p-button type="button" label="Cancelar" severity="secondary" (onClick)="showCreateGroupDialog.set(false)" />
+        </div>
+      </form>
+    </p-dialog>
+
+    @if (selectedGroupId(); as gid) {
+      <div class="group-dashboard">
+        <div class="dashboard-header">
+          <h2>Grupo: {{ selectedGroup()?.nombre }}</h2>
+          <div class="header-buttons">
+            @if (canCreateTicket()) {
+              <p-button label="Crear ticket" icon="pi pi-plus" (onClick)="goCrearTicket()" />
+            }
+            <p-button label="Ver Kanban" icon="pi pi-th-large" severity="secondary" (onClick)="enterGroup('kanban')" />
+            <p-button label="Ver lista" icon="pi pi-list" severity="secondary" (onClick)="enterGroup('lista')" />
+            @if (canManageGroup()) {
+              <p-button label="Gestionar grupo" icon="pi pi-cog" severity="secondary" (onClick)="enterGroup('gestion-grupo')" />
+            }
+          </div>
+        </div>
+
+        <div class="resumen-cards">
+          <p-card styleClass="resumen-card resumen-total">
+            <ng-template pTemplate="header">Total</ng-template>
+            <span class="numero">{{ resumen().total }}</span>
+            <p class="mb-0">tickets</p>
+          </p-card>
+          @for (estado of TICKET_ESTADOS; track estado) {
+            <p-card [styleClass]="'resumen-card ' + getResumenCardClass(estado)">
+              <ng-template pTemplate="header">{{ estado }}</ng-template>
+              <span class="numero">{{ resumen().porEstado[estado] }}</span>
+            </p-card>
+          }
+        </div>
+
+        <p-card header="Tickets recientes o asignados a ti" styleClass="mt-3">
+          <p-table [value]="recientesOAsignados()" [tableStyle]="{ 'min-width': '40rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Título</th>
+                <th>Estado</th>
+                <th>Asignado a</th>
+                <th>Prioridad</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ticket>
+              <tr>
+                <td>{{ ticket.titulo }}</td>
+                <td><p-tag [value]="ticket.estado" [severity]="getSeverity(ticket.estado)" /></td>
+                <td>{{ getAssigneeName(ticket) }}</td>
+                <td>{{ ticket.prioridad }}</td>
+                <td>
+                  <p-button icon="pi pi-eye" [text]="true" (onClick)="goTicket(ticket.id)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="5">No hay tickets recientes o asignados.</td></tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    } @else {
+      <p-card>
+        <p>Selecciona un grupo en el desplegable para ver su resumen y gestionarlo.</p>
+      </p-card>
+    }
+  </div>
+</div>

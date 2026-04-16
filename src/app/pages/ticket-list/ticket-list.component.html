@@ -1,0 +1,84 @@
+<div class="ticket-list-page">
+  <div class="list-header">
+    <h1>Tickets</h1>
+    <p-selectButton
+      [options]="viewModeOptions"
+      [ngModel]="viewMode()"
+      (ngModelChange)="viewMode.set($event)"
+      optionLabel="label"
+      optionValue="value"
+    />
+    <app-quick-filters [activeFilter]="quickFilter()" (filterChange)="setQuickFilter($event)" />
+    @if (canCreate()) {
+      <p-button label="Crear ticket" icon="pi pi-plus" (onClick)="goCrear()" />
+    }
+  </div>
+
+  @if (viewMode() === 'kanban') {
+    <app-kanban [showHeader]="false" />
+  } @else {
+  <div class="filters-bar" [formGroup]="filterForm">
+    <input
+      type="text"
+      pInputText
+      formControlName="global"
+      placeholder="Buscar por título o descripción"
+      class="p-inputtext-sm"
+    />
+    <p-select
+      formControlName="estado"
+      [options]="estados"
+      placeholder="Estado"
+      [showClear]="true"
+      styleClass="p-inputtext-sm"
+    />
+    <p-select
+      formControlName="prioridad"
+      [options]="prioridades"
+      placeholder="Prioridad"
+      [showClear]="true"
+      styleClass="p-inputtext-sm"
+    />
+    <p-select
+      formControlName="asignado"
+      [options]="miembros()"
+      optionLabel="nombreCompleto"
+      optionValue="id"
+      placeholder="Asignado a"
+      [showClear]="true"
+      styleClass="p-inputtext-sm"
+    />
+  </div>
+
+  <p-table [value]="tickets()" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-sm">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID / Título</th>
+        <th>Estado</th>
+        <th>Asignado a</th>
+        <th>Prioridad</th>
+        <th>Fecha límite</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ticket>
+      <tr>
+        <td>
+          <span class="ticket-id">{{ ticket.id.slice(0, 8) }}</span>
+          {{ ticket.titulo }}
+        </td>
+        <td><p-tag [value]="ticket.estado" [severity]="getSeverity(ticket.estado)" /></td>
+        <td>{{ getAssigneeName(ticket) }}</td>
+        <td>{{ ticket.prioridad }}</td>
+        <td>{{ ticket.fechaLimite ? (ticket.fechaLimite | date:'shortDate') : '—' }}</td>
+        <td>
+          <p-button icon="pi pi-eye" [text]="true" (onClick)="goTicket(ticket.id)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr><td colspan="6">No hay tickets que coincidan con los filtros.</td></tr>
+    </ng-template>
+  </p-table>
+  }
+</div>

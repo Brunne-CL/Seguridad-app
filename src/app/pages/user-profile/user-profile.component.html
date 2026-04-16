@@ -1,0 +1,111 @@
+<div class="profile-page">
+  <div class="profile-header">
+    <p-button icon="pi pi-arrow-left" [text]="true" (onClick)="goBack()" />
+    <h1>Mi perfil</h1>
+  </div>
+
+  @if (user(); as u) {
+    <p-card header="Datos del usuario" styleClass="mb-3 profile-card">
+      @if (!editing()) {
+        <dl class="profile-dl">
+          <dt>Usuario</dt>
+          <dd>{{ u.usuario }}</dd>
+          <dt>Email</dt>
+          <dd>{{ u.email }}</dd>
+          <dt>Nombre completo</dt>
+          <dd>{{ u.nombreCompleto }}</dd>
+          <dt>Dirección</dt>
+          <dd>{{ u.direccion }}</dd>
+          <dt>Teléfono</dt>
+          <dd>{{ u.telefono }}</dd>
+          <dt>Fecha de nacimiento</dt>
+          <dd>{{ u.fechaNacimiento | date:'longDate' }}</dd>
+        </dl>
+        <div class="profile-actions">
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="startEdit()" />
+        </div>
+      } @else {
+        <form [formGroup]="form" class="profile-form">
+          <div class="form-field">
+            <label for="profile-usuario">Usuario</label>
+            <input id="profile-usuario" type="text" [value]="u.usuario" disabled class="p-inputtext p-component w-full" />
+            <small class="field-hint">El usuario de acceso no se puede modificar.</small>
+          </div>
+          <div class="form-field">
+            <label for="profile-email">Email</label>
+            <input pInputText id="profile-email" formControlName="email" class="w-full" />
+            @if (form.get('email')?.invalid && form.get('email')?.touched) {
+              <small class="p-error">Email obligatorio y válido.</small>
+            }
+          </div>
+          <div class="form-field">
+            <label for="profile-nombre">Nombre completo</label>
+            <input pInputText id="profile-nombre" formControlName="nombreCompleto" class="w-full" />
+            @if (form.get('nombreCompleto')?.invalid && form.get('nombreCompleto')?.touched) {
+              <small class="p-error">Nombre obligatorio.</small>
+            }
+          </div>
+          <div class="form-field">
+            <label for="profile-direccion">Dirección</label>
+            <input pInputText id="profile-direccion" formControlName="direccion" class="w-full" />
+          </div>
+          <div class="form-field">
+            <label for="profile-telefono">Teléfono</label>
+            <input pInputText id="profile-telefono" formControlName="telefono" class="w-full" />
+            @if (form.get('telefono')?.invalid && form.get('telefono')?.touched) {
+              <small class="p-error">Solo números, al menos 10 dígitos.</small>
+            }
+          </div>
+          <div class="form-field">
+            <label for="profile-fecha">Fecha de nacimiento</label>
+            <input id="profile-fecha" type="date" formControlName="fechaNacimiento" class="p-inputtext p-component w-full" />
+            @if (form.get('fechaNacimiento')?.invalid && form.get('fechaNacimiento')?.touched) {
+              <small class="p-error">Obligatoria. Solo mayores de 18 años.</small>
+            }
+          </div>
+          <div class="profile-actions">
+            <p-button label="Restablecer" icon="pi pi-refresh" [text]="true" (onClick)="restablecer()" />
+            <p-button label="Cancelar" icon="pi pi-times" [text]="true" (onClick)="cancelarEdicion()" />
+            <p-button label="Guardar" icon="pi pi-check" (onClick)="guardar()" [disabled]="form.invalid" />
+          </div>
+        </form>
+      }
+    </p-card>
+
+    <p-card header="Resumen de tickets asignados" styleClass="mb-3">
+      <div class="resumen-chips">
+        <span class="chip">Abiertos: {{ resumen().abiertos }}</span>
+        <span class="chip">En progreso / Revisión: {{ resumen().enProgreso }}</span>
+        <span class="chip">Hechos: {{ resumen().hechos }}</span>
+      </div>
+    </p-card>
+
+    <p-card header="Tickets asignados a mí">
+      <p-table [value]="assignedTickets()" [tableStyle]="{ 'min-width': '40rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Título</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>{{ row.titulo }}</td>
+            <td><p-tag [value]="row.estado" [severity]="getSeverity(row.estado)" /></td>
+            <td>
+              <p-button icon="pi pi-eye" [text]="true" (onClick)="goTicket(row.id, row.groupId)" />
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr><td colspan="3">No tienes tickets asignados.</td></tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  } @else {
+    <p-card>
+      <p>No hay sesión. <a routerLink="/login">Iniciar sesión</a></p>
+    </p-card>
+  }
+</div>

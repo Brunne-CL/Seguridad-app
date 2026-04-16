@@ -1,0 +1,75 @@
+<p-card header="Crear ticket" styleClass="create-card">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field mb-3">
+      <label for="titulo" class="block mb-1">Título (obligatorio)</label>
+      <input
+        id="titulo"
+        type="text"
+        pInputText
+        formControlName="titulo"
+        class="w-full"
+        placeholder="Título del ticket"
+      />
+      @if (form.get('titulo')?.invalid && form.get('titulo')?.touched) {
+        <small class="p-error block mt-1">El título es obligatorio.</small>
+      }
+    </div>
+    <div class="field mb-3">
+      <label for="descripcion" class="block mb-1">Descripción</label>
+      <textarea
+        id="descripcion"
+        pTextarea
+        formControlName="descripcion"
+        rows="4"
+        class="w-full"
+        placeholder="Descripción del ticket"
+      ></textarea>
+    </div>
+    <div class="field mb-3">
+      <label for="estado" class="block mb-1">Estado inicial</label>
+      <p-select
+        id="estado"
+        formControlName="estado"
+        [options]="estados"
+        placeholder="Pendiente"
+        styleClass="w-full"
+      />
+    </div>
+    <div class="field mb-3">
+      <label for="asignado" class="block mb-1">Asignado a (opcional)</label>
+      <p-select
+        id="asignado"
+        formControlName="asignadoId"
+        [options]="miembros()"
+        optionLabel="label"
+        optionValue="id"
+        placeholder="Puedes asignarte al crear"
+        [showClear]="true"
+        styleClass="w-full"
+      />
+    </div>
+    <div class="field mb-3">
+      <label for="prioridad" class="block mb-1">Prioridad</label>
+      <p-select
+        id="prioridad"
+        formControlName="prioridad"
+        [options]="prioridades"
+        styleClass="w-full"
+      />
+    </div>
+    <div class="field mb-3">
+      <label for="fechaLimite" class="block mb-1">Fecha límite (opcional)</label>
+      <p-datePicker
+        id="fechaLimite"
+        formControlName="fechaLimite"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        styleClass="w-full"
+      />
+    </div>
+    <div class="flex gap-2 mt-3">
+      <p-button type="submit" label="Crear" icon="pi pi-check" />
+      <p-button type="button" label="Cancelar" severity="secondary" (onClick)="cancel()" />
+    </div>
+  </form>
+</p-card>

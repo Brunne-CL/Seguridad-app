@@ -1,31 +1,60 @@
 .register-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  width: 100%;
+  max-width: 520px;
 }
 
 .register-card {
   width: 100%;
-  max-width: 480px;
+  box-shadow: var(--uteq-sombra-fuerte) !important;
+  border: 2px solid rgba(0, 81, 122, 0.15) !important;
+}
+
+::ng-deep .register-page .uteq-card-auth .p-card-header {
+  font-size: 1.35rem;
+  padding: 1.35rem 1.5rem;
+  color: var(--uteq-azul-oscuro);
+  border-bottom-width: 4px;
+}
+
+::ng-deep .register-card .p-card-content .field label {
+  color: var(--uteq-azul-oscuro);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+::ng-deep .register-card .p-card-content .p-inputtext,
+::ng-deep .register-card .p-card-content .p-password input,
+::ng-deep .register-card .p-card-content input {
+  min-height: 42px;
 }
 
 ::ng-deep .register-card .p-card-footer {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.85rem;
   flex-wrap: wrap;
+  padding: 1.35rem 1.5rem;
+}
+
+.register-card .p-button[type="submit"] {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+  padding: 0.7rem 1.4rem !important;
+}
+
+.register-card .p-button[type="submit"]:hover {
+  background: var(--uteq-azul-uteq);
+  border-color: var(--uteq-azul-uteq);
 }
 
 .ml-2 { margin-left: 0.5rem; }
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 1rem; }
-.mt-1 { margin-top: 0.25rem; }
-.mt-3 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.4rem; }
+.mb-2 { margin-bottom: 0.6rem; }
+.mb-3 { margin-bottom: 1.15rem; }
+.mt-1 { margin-top: 0.3rem; }
+.mt-3 { margin-top: 1.5rem; }
 .block { display: block; }
 .w-full { width: 100%; }
 .flex { display: flex; }
-.gap-2 { gap: 0.5rem; }
+.gap-2 { gap: 0.6rem; }
 .flex-wrap { flex-wrap: wrap; }
-.p-error { color: var(--p-red-500); }
+.p-error { color: var(--uteq-azul-oscuro); font-weight: 600; font-size: 0.9rem; }

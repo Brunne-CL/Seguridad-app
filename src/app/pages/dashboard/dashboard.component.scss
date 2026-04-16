@@ -1,0 +1,85 @@
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.group-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.group-select-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--uteq-azul-oscuro);
+  white-space: nowrap;
+}
+
+.group-select {
+  min-width: 180px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--uteq-azul-oscuro);
+  padding-bottom: 0.4rem;
+  border-bottom: 3px solid var(--uteq-verde-agua);
+  display: inline-block;
+}
+
+.dashboard .p-button:first-child {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+  padding: 0.65rem 1.2rem !important;
+}
+
+.dashboard .p-button:first-child:hover {
+  background: var(--uteq-azul-uteq);
+  border-color: var(--uteq-azul-uteq);
+}
+
+.resumen-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 1.15rem;
+}
+
+.resumen-card {
+  border: 2px solid rgba(0, 81, 122, 0.1) !important;
+  border-top-width: 5px !important;
+  border-top-style: solid !important;
+  border-top-color: var(--uteq-azul-uteq);
+  box-shadow: var(--uteq-sombra-suave) !important;
+}
+
+.resumen-card.resumen-total { border-top-color: var(--uteq-azul-oscuro) !important; }
+.resumen-card.resumen-pendiente { border-top-color: var(--uteq-gris-humo) !important; }
+.resumen-card.resumen-en-progreso { border-top-color: var(--uteq-azul-uteq) !important; }
+.resumen-card.resumen-revision { border-top-color: var(--uteq-naranja) !important; }
+.resumen-card.resumen-hecho { border-top-color: var(--uteq-verde-agua) !important; }
+.resumen-card.resumen-bloqueado { border-top-color: var(--uteq-azul-oscuro) !important; }
+
+.resumen-card .numero {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--uteq-azul-oscuro);
+  letter-spacing: -0.02em;
+}
+
+.resumen-card p {
+  color: var(--uteq-gris-humo);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.mt-3 { margin-top: 1.25rem; }
+.mb-0 { margin-bottom: 0; }

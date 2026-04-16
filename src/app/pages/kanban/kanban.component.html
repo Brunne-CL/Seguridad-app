@@ -1,0 +1,51 @@
+<div class="kanban-page">
+  @if (showHeader()) {
+    <div class="kanban-header">
+      <h1>Tablero Kanban</h1>
+      <app-quick-filters [activeFilter]="quickFilter()" (filterChange)="setFilter($event)" />
+      @if (canCreate()) {
+        <p-button label="Crear ticket" icon="pi pi-plus" (onClick)="goCrear()" />
+      }
+    </div>
+  }
+
+  <div class="kanban-board">
+    @for (col of columns(); track col.estado) {
+      <div
+        class="kanban-column"
+        [ngClass]="'col-' + getColumnClass(col.estado)"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event, col.estado)"
+      >
+        <div class="column-header">
+          <span class="column-title">{{ col.estado }}</span>
+          <span class="column-count">{{ col.count }}</span>
+        </div>
+        <div class="column-cards">
+          @for (ticket of col.tickets; track ticket.id) {
+            <div
+              class="kanban-card"
+              [class.kanban-card--no-drag]="!canDrag(ticket)"
+              [draggable]="canDrag(ticket)"
+              (click)="goTicket(ticket.id)"
+              (dragstart)="onDragStart($event, ticket)"
+            >
+              <div class="card-title">{{ ticket.titulo }}</div>
+              <div class="card-meta">
+                <p-tag [value]="ticket.estado" [severity]="getSeverity(ticket.estado)" />
+                <span class="assignee">{{ getAssigneeName(ticket) }}</span>
+              </div>
+              <div class="card-priority">Prioridad: {{ ticket.prioridad }}</div>
+              <div class="card-dates">
+                {{ ticket.fechaCreacion | date:'shortDate' }}
+                @if (ticket.fechaLimite) {
+                  · Límite: {{ ticket.fechaLimite | date:'shortDate' }}
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

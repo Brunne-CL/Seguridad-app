@@ -1,0 +1,12 @@
+<div class="quick-filters">
+  @for (f of filters; track f.value) {
+    <button
+      type="button"
+      class="filter-btn"
+      [class.active]="activeFilter() === f.value"
+      (click)="select(f.value)"
+    >
+      {{ f.label }}
+    </button>
+  }
+</div>

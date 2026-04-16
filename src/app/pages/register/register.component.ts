@@ -9,6 +9,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { DatePickerModule } from 'primeng/datepicker';
 import { MessageService } from 'primeng/api';
+import { DataService } from '../../core/data.service';
+import { PERMISSIONS } from '../../core/models';
 import { passwordStrengthValidator, mayorDeEdadValidator, telefonoValidator, PASSWORD_SPECIAL_CHARS } from '../../core/validators';
 
 function confirmPasswordValidator(group: AbstractControl): ValidationErrors | null {
@@ -42,7 +44,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private data: DataService
   ) {
     this.form = this.fb.nonNullable.group(
       {
@@ -69,10 +72,34 @@ export class RegisterComponent {
       });
       return;
     }
+    const raw = this.form.getRawValue();
+    const fechaNacimiento = raw.fechaNacimiento instanceof Date
+      ? raw.fechaNacimiento.toISOString()
+      : (raw.fechaNacimiento ?? new Date().toISOString());
+    const existing = this.data.getUserByUsuario(raw.usuario);
+    if (existing) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Usuario existente',
+        detail: 'Ese usuario ya está registrado. Usa otro o inicia sesión.'
+      });
+      return;
+    }
+    this.data.createUser({
+      usuario: raw.usuario.trim(),
+      email: raw.email.trim(),
+      password: raw.password,
+      nombreCompleto: raw.nombreCompleto.trim(),
+      direccion: raw.direccion.trim(),
+      telefono: raw.telefono.trim(),
+      fechaNacimiento,
+      permissions: [PERMISSIONS.TICKET_ADD],
+      groupIds: []
+    });
     this.messageService.add({
       severity: 'success',
       summary: 'Registro exitoso',
-      detail: 'Tu cuenta ha sido creada correctamente.'
+      detail: 'Tu cuenta ha sido creada. Ya puedes iniciar sesión con tu usuario y contraseña.'
     });
     setTimeout(() => this.router.navigate(['/login']), 800);
   }

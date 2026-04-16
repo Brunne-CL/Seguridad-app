@@ -1,0 +1,62 @@
+.list-header {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.35rem;
+}
+
+.list-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--uteq-azul-oscuro);
+  padding-bottom: 0.4rem;
+  border-bottom: 3px solid var(--uteq-verde-agua);
+  display: inline-block;
+}
+
+.list-header p-selectbutton ::ng-deep .p-selectbutton .p-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.list-header p-selectbutton ::ng-deep .p-selectbutton .p-button.p-highlight {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+}
+
+.list-header .p-button:last-child {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+  padding: 0.65rem 1.2rem !important;
+}
+
+.list-header .p-button:last-child:hover {
+  background: var(--uteq-azul-uteq);
+  border-color: var(--uteq-azul-uteq);
+}
+
+.filters-bar {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.35rem;
+  padding: 1.2rem 1.35rem;
+  background: var(--uteq-blanco);
+  border-radius: var(--uteq-radius);
+  border: 2px solid rgba(0, 81, 122, 0.12);
+  box-shadow: var(--uteq-sombra-card);
+}
+
+.filters-bar input,
+.filters-bar .p-select {
+  min-width: 200px;
+}
+
+.ticket-id {
+  font-size: 0.8rem;
+  color: var(--uteq-gris-humo);
+  margin-right: 0.5rem;
+}

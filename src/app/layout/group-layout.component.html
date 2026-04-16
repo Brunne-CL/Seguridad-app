@@ -1,0 +1,54 @@
+<div class="group-layout">
+  <header class="layout-header">
+    <div class="header-left">
+      <p-button icon="pi pi-bars" [text]="true" (onClick)="toggleMenu()" />
+      <span class="group-name">{{ groupName }}</span>
+    </div>
+    <div class="header-right">
+      <p-button
+        [label]="userLabel"
+        icon="pi pi-user"
+        [text]="true"
+        (onClick)="menuVisible.set(!menuVisible())"
+        [outlined]="menuVisible()"
+      />
+      @if (menuVisible()) {
+        <div class="avatar-menu">
+          <button type="button" class="menu-item" (click)="goPerfil()">
+            <span class="pi pi-user"></span> Mi perfil
+          </button>
+          @if (auth.canAccessGeneralDashboard()) {
+          <button type="button" class="menu-item" (click)="goDashboard()">
+            <span class="pi pi-home"></span> Dashboard
+          </button>
+        }
+          <button type="button" class="menu-item" (click)="goCambiarGrupo()">
+            <span class="pi pi-users"></span> Cambiar grupo
+          </button>
+          <button type="button" class="menu-item" (click)="logout()">
+            <span class="pi pi-sign-out"></span> Cerrar sesión
+          </button>
+        </div>
+      }
+    </div>
+  </header>
+  <aside class="sidebar" [class.open]="menuVisible()">
+    <nav class="nav">
+      @if (auth.canAccessGeneralDashboard()) {
+        <a [routerLink]="routes.dashboard" routerLinkActive="active" (click)="menuVisible.set(false)">Dashboard</a>
+      }
+      <a [routerLink]="routes.groupDashboard(groupId())" routerLinkActive="active" (click)="menuVisible.set(false)">Dashboard del grupo</a>
+      <a [routerLink]="routes.groupList(groupId())" routerLinkActive="active" (click)="menuVisible.set(false)">Lista</a>
+      <a [routerLink]="routes.profile" routerLinkActive="active" (click)="menuVisible.set(false)">Mi perfil</a>
+      @if (auth.canManageGroup()) {
+        <a [routerLink]="routes.groupManage(groupId())" routerLinkActive="active" (click)="menuVisible.set(false)">Gestión de grupo</a>
+      }
+      @if (auth.canManageUsers()) {
+        <a [routerLink]="routes.users" routerLinkActive="active" (click)="menuVisible.set(false)">Gestión de usuarios</a>
+      }
+    </nav>
+  </aside>
+  <main class="main">
+    <router-outlet />
+  </main>
+</div>

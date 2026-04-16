@@ -1,0 +1,93 @@
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.detail-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--uteq-azul-oscuro);
+  padding-bottom: 0.35rem;
+  border-bottom: 3px solid var(--uteq-verde-agua);
+  display: inline-block;
+}
+
+.detail-header .p-button.p-button-text:hover {
+  color: var(--uteq-azul-uteq);
+}
+
+.ticket-detail ::ng-deep .p-card .p-card-header {
+  color: var(--uteq-azul-oscuro);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-dl {
+  margin: 0;
+}
+
+.detail-dl dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: var(--uteq-azul-oscuro);
+}
+
+.detail-dl dd {
+  margin-left: 0;
+  margin-bottom: 0.25rem;
+  color: var(--uteq-gris-humo);
+}
+
+.ticket-detail ::ng-deep .btn-uteq-primary {
+  background: var(--uteq-verde-agua);
+  border-color: var(--uteq-verde-agua);
+}
+
+.ticket-detail ::ng-deep .btn-uteq-primary:hover {
+  background: var(--uteq-azul-uteq);
+  border-color: var(--uteq-azul-uteq);
+}
+
+.comment, .historial-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(0, 81, 122, 0.12);
+}
+
+.comment:last-child, .historial-item:last-child {
+  border-bottom: none;
+}
+
+.comment-date, .historial-date {
+  font-size: 0.85rem;
+  color: var(--uteq-gris-humo);
+  margin-left: 0.5rem;
+}
+
+.comment-text {
+  margin: 0.25rem 0 0;
+}
+
+.add-comment textarea {
+  width: 100%;
+}
+
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.w-full { width: 100%; }
+.text-muted { color: var(--uteq-gris-humo); }
